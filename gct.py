@@ -12,7 +12,7 @@ from parsers.gcode_strip import GcodeStrip
 from parsers.gcode_gradient_infill import GcodeGradientInfill
 
 def main():
-    """ Parse arguments, sets up logging, run gcode selected parser."""
+    """ Parse arguments, sets up logging, run selected gcode parser."""
 
     # Command line arguments
     parser = argparse.ArgumentParser(
