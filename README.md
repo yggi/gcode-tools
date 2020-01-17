@@ -10,7 +10,7 @@ This software is in an early development stage. Things might break.
 gct.py [-o FILE_OUT] COMMAND ... FILE_IN
 ```
 
-If no `OUTFILE` is given, output is written to stdout.
+If no `FILE_OUT` is given, output is written to stdout.
 
 Commands may have command-specific parameters.
 
@@ -35,9 +35,8 @@ Changes the amount of extrusion depending on the distance to the closest perimet
 #### Usage
 
 ```
-gct.py gradient_infill [--max_flow MAX_FLOW] [--min_flow MIN_FLOW] [--width WIDTH] FILE_IN
+gct.py gradient_infill [--flow_min FLOW_MIN] [--flow_max FLOW_MAX]  [--width WIDTH] FILE_IN
 ```
-
 Check `gct.py gradient_infill -h` for more information.
 
 #### Notes
