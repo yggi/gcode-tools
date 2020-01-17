@@ -12,9 +12,13 @@ from parsers.gcode_strip import GcodeStrip
 from parsers.gcode_gradient_infill import GcodeGradientInfill
 
 def main():
+    """ Parse arguments, sets up logging, run gcode selected parser."""
 
     # Command line arguments
-    parser = argparse.ArgumentParser(prog="gct.py", description="Tools to parse and manipulate gcode")
+    parser = argparse.ArgumentParser(
+        prog="gct.py",
+        description="Tools to parse and manipulate gcode"
+    )
 
     parser.add_argument(
         "--file_out",
@@ -41,6 +45,8 @@ def main():
 
     subprasers = parser.add_subparsers(dest='command', required=True)
 
+    # TODO: this should be an optional argument and default to stdin
+    # but setting nargs='?' breaks parsing if FILE_IN is provided.
     parser.add_argument(
         "file_in",
         type=argparse.FileType('r'),
@@ -49,8 +55,10 @@ def main():
         default=sys.stdin
     )
 
+    # 'strip' command
     strip = subprasers.add_parser('strip', help='strip comments')
 
+    # 'gradient_infill' command
     gradient = subprasers.add_parser('gradient_infill', help='modify infill to gradient')
 
     gradient.add_argument(
@@ -81,10 +89,11 @@ def main():
     # Logging
     logging.basicConfig(format='%(asctime)s %(message)s', level=args.loglevel)
 
+
     # Select and run the appropriate gcode parser
     gcode_parser = None
 
-    gcode_parser_args={
+    gcode_parser_args = {
         "file_out": args.file_out,
         "file_in": args.file_in
     }
@@ -93,7 +102,12 @@ def main():
         gcode_parser = GcodeStrip(**gcode_parser_args)
 
     elif args.command == "gradient_infill":
-        gcode_parser = GcodeGradientInfill(flow_min=args.flow_min, flow_max=args.flow_max, width=args.width, **gcode_parser_args)
+        gcode_parser = GcodeGradientInfill(
+            flow_min=args.flow_min,
+            flow_max=args.flow_max,
+            width=args.width,
+            **gcode_parser_args
+        )
 
     gcode_parser.parse()
 
